@@ -20,6 +20,7 @@
             padding: 10px;
             overflow-y: auto;
             border-bottom: 1px solid #ddd;
+            position: relative;
         }
         .chat-message {
             margin: 10px 0;
@@ -54,11 +55,29 @@
             margin-left: 10px;
             border-radius: 4px;
         }
+        /* Loading animation */
+        .loader {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid blue;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            opacity: 0.5;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
     <div class="chat-container" id="chat-container">
         <!-- Chat messages will be appended here -->
+        <div id="loading" class="loader" style="display: none;"></div>
     </div>
     <div class="input-container">
         <input type="text" id="text-entry" placeholder="Type your message here...">
@@ -79,6 +98,13 @@
                 chatContainer.appendChild(userMessageDiv);
                 chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
                 textEntry.value = '';
+
+                // Show loading animation
+                const loading = document.getElementById('loading');
+                loading.style.display = 'block';
+
+                // Disable send button
+                document.getElementById('send-button').disabled = true;
 
                 // Send message to API
                 try {
@@ -105,6 +131,12 @@
                     errorMessageDiv.textContent = 'Error: Could not connect to the server.';
                     chatContainer.appendChild(errorMessageDiv);
                     chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
+                } finally {
+                    // Hide loading animation
+                    loading.style.display = 'none';
+
+                    // Enable send button
+                    document.getElementById('send-button').disabled = false;
                 }
             }
         });

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+        .chat-message {
+            margin: 10px 0;
+        }
+        .chat-message.user {
+            text-align: right;
+            color: blue;
+        }
+        .chat-message.bot {
+            text-align: left;
+            color: green;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background-color: white;
+        }
+        .input-container input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .input-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: blue;
+            color: white;
+            cursor: pointer;
+            margin-left: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container" id="chat-container">
+        <!-- Chat messages will be appended here -->
+    </div>
+    <div class="input-container">
+        <input type="text" id="text-entry" placeholder="Type your message here...">
+        <button id="send-button">Send</button>
+    </div>
+
+    <script>
+        document.getElementById('send-button').addEventListener('click', async () => {
+            const textEntry = document.getElementById('text-entry');
+            const chatContainer = document.getElementById('chat-container');
+            const userMessage = textEntry.value;
+
+            // Display user's message
+            if (userMessage.trim()) {
+                const userMessageDiv = document.createElement('div');
+                userMessageDiv.className = 'chat-message user';
+                userMessageDiv.textContent = userMessage;
+                chatContainer.appendChild(userMessageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
+                textEntry.value = '';
+
+                // Send message to API
+                try {
+                    const response = await fetch('http://localhost:8111/rag', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ query: userMessage })
+                    });
+                    const data = await response.json();
+                    const botResponse = data.response;
+
+                    // Display bot's response
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.className = 'chat-message bot';
+                    botMessageDiv.textContent = botResponse;
+                    chatContainer.appendChild(botMessageDiv);
+                    chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
+                } catch (error) {
+                    console.error('Error:', error);
+                    const errorMessageDiv = document.createElement('div');
+                    errorMessageDiv.className = 'chat-message bot';
+                    errorMessageDiv.textContent = 'Error: Could not connect to the server.';
+                    chatContainer.appendChild(errorMessageDiv);
+                    chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to bottom
+                }
+            }
+        });
+
+        // Allow pressing Enter to send message
+        document.getElementById('text-entry').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('send-button').click();
+            }
+        });
+    </script>
+</body>
+</html>

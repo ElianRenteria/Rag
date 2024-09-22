@@ -1,9 +1,78 @@
-The app is a simple Question-Answering (QA) system built on the Retrieve-and-Generate (RAG) architecture. It utilizes the Ollama TinyLLama language model for generating responses. 
-Users can interact with the app by sending HTTP POST requests to the /rag endpoint. 
-The app accepts JSON data containing a query, which can be a question or a request to fetch content from a specified URL using the --url parameter. 
-The backend processes the query by either fetching content from the URL and storing it in the database or searching the existing database for relevant information. 
-If relevant information is found in the database, the app generates a response using the TinyLLama model and provides citations from the stored documents. 
-If no relevant information is found, the model generates a response based on its own knowledge. The app also features a simple frontend UI accessible at the domain elianrenteria.me, 
-allowing users to interact with the QA system through a web interface.
 
-This setup allows users to ask questions, fetch content from URLs to add to the database, and receive responses with citations if relevant information is found.
+# Rag
+
+**Rag** is a project developed by Elian Renteria. This repository contains the source code and documentation for the project.
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+## Introduction
+
+Rag is designed to [brief description of what the project does or its purpose]. This project aims to [goal or primary focus of the project].
+
+## Features
+
+- Feature 1
+- Feature 2
+- Feature 3
+
+## Installation
+
+To install and set up the project locally, follow these steps:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ElianRenteria/Rag.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd Rag
+   ```
+3. Install the necessary dependencies:
+   ```bash
+   [installation command, e.g., npm install or pip install -r requirements.txt]
+   ```
+
+## Usage
+
+After installation, you can use the project by running the following command:
+
+```bash
+[command to run the project]
+```
+
+Provide any additional instructions or examples for using the project here.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps to contribute:
+
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature-branch
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git commit -m 'Add some feature'
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature-branch
+   ```
+5. Create a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any questions or inquiries, please contact [Elian Renteria](mailto:elianrenteria@example.com).
